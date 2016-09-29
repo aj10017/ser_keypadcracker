@@ -1,0 +1,13 @@
+{
+	"title"		:	"Advanced Keypad Cracker",
+	"type"		:	"weapon",
+	"tags"		:	[ "roleplay", "build" ],
+	"ignore"	:
+	[
+		"*.psd",
+		"*.vcproj",
+		"*.svn*",
+		"*.md",
+		"*.git*"
+	]
+}

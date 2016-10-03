@@ -19,7 +19,7 @@ function ENT:Initialize()
 	self.beep = 0
 	self.cracktime = CurTime()+self.timeToCrack
 	self:SetUseType(SIMPLE_USE)
-	self.crackchance = 0.9
+	self.crackchance = 1
 end
 
 function ENT:Use(act,call,use,val)

@@ -3,15 +3,16 @@ AddCSLuaFile("shared.lua")
 include('shared.lua')
 
 --util.AddNetworkString("sent_cracker_command")
-
+CreateConVar("kcadv_hp",25,bit.band(FCVAR_SERVER_CAN_EXECUTE,FCVAR_NOTIFY))
+CreateConVar("kcadv_cracktime",15,bit.band(FCVAR_SERVER_CAN_EXECUTE,FCVAR_NOTIFY))
 function ENT:Initialize()
 	self:SetModel( "models/weapons/w_c4.mdl" )
 	self:PhysicsInit( SOLID_VPHYSICS )
 	self:SetMoveType( MOVETYPE_VPHYSICS )
 	self:SetSolid( SOLID_VPHYSICS )
 	self:GetPhysicsObject():SetMass(1)
-	self.hp = 25
-	self.timeToCrack = 15
+	self.hp = GetConVarNumber("kcadv_hp")
+	self.timeToCrack = GetConVarNumber("kcadv_cracktime")
 	self.cracking = true
 	self.alive = true
 	self.owner = nil
@@ -69,6 +70,18 @@ function ENT:Think()
 			self:GetPhysicsObject():Wake()
 			self:SetMoveType(MOVETYPE_VPHYSICS)
 			self:EmitSound("buttons/combine_button1.wav",85)
+			timer.Simple(5,function()
+				if IsValid(self)==false then return end
+				if self.owner:GetPos():Distance(self:GetPos())<400 then
+					self.owner:Give("weapon_keycrack_adv")
+					self:Remove()
+				else
+					timer.Simple(10,function()
+						if IsValid(self)==false then return end
+						self:Remove()
+					end)
+				end
+			end)
 		else
 			self.target:Remove()
 			self.hp = 0
